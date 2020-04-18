@@ -11,4 +11,5 @@ Currently users can:
 -	log in, register, and log out,
 -	see basic front page,
 -	pull restaurant information into the front page based on location and one additional search term.
+
 New features will be added in the next few weeks.
