@@ -24,6 +24,14 @@ def index():
                 business {{
                     name
                     url
+                    review_count
+                    rating
+                    location {{
+                        address1
+                        city
+                        postal_code
+                        country
+                  }}
                 }}
             }}
         }}

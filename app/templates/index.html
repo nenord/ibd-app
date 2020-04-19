@@ -11,7 +11,7 @@
   <br>
   <div class="container">
     {% for restaurant in result %}
-      <p> {{ restaurant['name'] }}</p>
+      {% include '__rest.html' %}
     {% endfor %}
   </div>
 {% endblock %}
