@@ -1,20 +1,27 @@
 <table class="table table-hover">
     <tr>
-        <td width="300px">
+        <td width="250px">
             <a href={{ restaurant['url'] }}>
                 {{ restaurant['name']}}
             </a><br>
                 {{ restaurant['location']['city'] }}<br>
+                {% if restaurant['location']['address1'] %}
                 <p>{{ restaurant['location']['address1'] }}, {{ restaurant['location']['postal_code'] }}</p>
+                {% else %}
+                <p>{{ restaurant['location']['postal_code'] }}</p>
+                {% endif %}
         </td>
-        <td width="300px">
+        <td width="150px">
             <p>Rating: {{ restaurant['rating'] }}</p>
             <p>Bassed on {{ restaurant['review_count'] }} rating</p>
         </td>
-        <td>
-          <div>
-            <img src="yelp-logo-vector.jpg" class="img-fluid" alt="Yelp image">
-          </div>
+        <td width="110px">
+          <a href={{ restaurant['url'] }}>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Yelp_Logo.svg/1200px-Yelp_Logo.svg.png" width="100" alt="Yelp logo" />
+          </a>
+        </td>
+        <td width="50px"><br>
+          <button type="button" class="btn btn-primary">Recommend</button>
         </td>
     </tr>
 </table>
