@@ -25,3 +25,49 @@
         </td>
     </tr>
 </table>
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.btn-primary').forEach(function(button) {
+          button.onclick = function() {
+            document.querySelectorAll('.btn-primary').forEach(function(button) {
+              button.disabled = true;
+            });
+            const post = document.createElement('input');
+            const bttn1 = document.createElement('button');
+            const bttn2 = document.createElement('button');
+            post.placeholder = 'Add your text here!';
+            post.id = 'post_space';
+            bttn1.id = "submit_it";
+            bttn1.innerHTML = "Submit";
+            bttn2.id = 'cancel_it';
+            bttn2.innerHTML = "Cancel";
+            this.parentElement.parentElement.parentElement.appendChild(post);
+            this.parentElement.parentElement.parentElement.appendChild(bttn1);
+            this.parentElement.parentElement.parentElement.appendChild(bttn2);
+            document.querySelector('#cancel_it').onclick = function () {
+              document.querySelectorAll('.btn-primary').forEach(function(button) {
+                button.disabled = false;
+              });
+              document.querySelector('#post_space').remove();
+              document.querySelector('#submit_it').remove();
+              document.querySelector('#cancel_it').remove();
+            }
+            document.querySelector('#submit_it').onclick = function () {
+              if (post.value == '') {
+                alert('You cannot post empty form!');
+              }
+              else {
+                document.querySelectorAll('.btn-primary').forEach(function(button) {
+                  button.disabled = false;
+                });
+                document.querySelector('#post_space').remove();
+                document.querySelector('#submit_it').remove();
+                document.querySelector('#cancel_it').remove();
+                alert(post.value);
+              }
+            }
+          };
+      });
+    });
+</script>

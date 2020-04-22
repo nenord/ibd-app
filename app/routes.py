@@ -19,10 +19,11 @@ def index():
         {{
             search(term: "{term}",
                     location: "{location}",
-                    limit: 10) {{
+                    limit: 2) {{
                 total
                 business {{
                     name
+                    id
                     url
                     review_count
                     rating
