@@ -1,6 +1,6 @@
-<table class="table table-hover">
+<div><table class="table table-hover">
     <tr>
-        <td width="250px">
+        <td class="col-md-4">
             <a href={{ restaurant['url'] }}>
                 {{ restaurant['name']}}
             </a><br>
@@ -11,63 +11,53 @@
                 <p>{{ restaurant['location']['postal_code'] }}</p>
                 {% endif %}
         </td>
-        <td width="150px">
+        <td class="col-md-3">
             <p>Rating: {{ restaurant['rating'] }}</p>
             <p>Bassed on {{ restaurant['review_count'] }} rating</p>
         </td>
-        <td width="110px">
+        <td class="col-md-2">
           <a href={{ restaurant['url'] }}>
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Yelp_Logo.svg/1200px-Yelp_Logo.svg.png" width="100" alt="Yelp logo" />
           </a>
         </td>
-        <td width="50px"><br>
-          <button type="button" class="btn btn-primary">Recommend</button>
+        <td class="col-md-1"><br>
+          <button type="button" id="{{ restaurant['alias'] }}" class="btn btn-primary">Recommend</button>
         </td>
     </tr>
-</table>
+</table></div>
+<div class="removable" id="{{ restaurant['alias'] }}">
+  <input type="text" id='{{ restaurant['alias'] }}' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+  <button type="button" name='submit-it' id='{{ restaurant['alias'] }}' class="btn btn-light col-md-1" style="margin: 5px">Submit</button>
+  <button type="button" name='cancel-it' id='{{ restaurant['alias'] }}' class="btn btn-light col-md-1" style="margin: 5px">Cancel</button>
+</div>
 
 <script type="text/javascript">
-  document.addEventListener('DOMContentLoaded', function() {
+  document.querySelector('[id="{{ restaurant['alias'] }}"][class="removable"]').style.display = 'none';
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelector('[id="{{ restaurant['alias'] }}"][class="btn btn-primary"]').onclick = function () {
+      document.querySelector('[id="{{ restaurant['alias'] }}"][class="removable"]').style.display = 'block';
       document.querySelectorAll('.btn-primary').forEach(function(button) {
-          button.onclick = function() {
-            document.querySelectorAll('.btn-primary').forEach(function(button) {
-              button.disabled = true;
-            });
-            const post = document.createElement('input');
-            const bttn1 = document.createElement('button');
-            const bttn2 = document.createElement('button');
-            post.placeholder = 'Add your text here!';
-            post.id = 'post_space';
-            bttn1.id = "submit_it";
-            bttn1.innerHTML = "Submit";
-            bttn2.id = 'cancel_it';
-            bttn2.innerHTML = "Cancel";
-            this.parentElement.parentElement.parentElement.appendChild(post);
-            this.parentElement.parentElement.parentElement.appendChild(bttn1);
-            this.parentElement.parentElement.parentElement.appendChild(bttn2);
-            document.querySelector('#cancel_it').onclick = function () {
-              document.querySelectorAll('.btn-primary').forEach(function(button) {
-                button.disabled = false;
-              });
-              document.querySelector('#post_space').remove();
-              document.querySelector('#submit_it').remove();
-              document.querySelector('#cancel_it').remove();
-            }
-            document.querySelector('#submit_it').onclick = function () {
-              if (post.value == '') {
-                alert('You cannot post empty form!');
-              }
-              else {
-                document.querySelectorAll('.btn-primary').forEach(function(button) {
-                  button.disabled = false;
-                });
-                document.querySelector('#post_space').remove();
-                document.querySelector('#submit_it').remove();
-                document.querySelector('#cancel_it').remove();
-                alert(post.value);
-              }
-            }
-          };
+        button.disabled = true;
       });
-    });
+      document.querySelector('[id="{{ restaurant['alias'] }}"][name="cancel-it"]').onclick = function () {
+        document.querySelectorAll('.btn-primary').forEach(function(button) {
+          button.disabled = false;
+        });
+        document.querySelector('[id="{{ restaurant['alias'] }}"][class="removable"]').style.display = 'none';
+      }
+      document.querySelector('[id="{{ restaurant['alias'] }}"][name="submit-it"]').onclick = function () {
+        const post = document.querySelector('[id="{{ restaurant['alias'] }}"][type="text"]');
+        if (post.value == '') {
+          alert('You cannot post empty form!');
+        }
+        else {
+          alert(post.value);
+          document.querySelectorAll('.btn-primary').forEach(function(button) {
+            button.disabled = false;
+          });
+          document.querySelector('[id="{{ restaurant['alias'] }}"][class="removable"]').style.display = 'none';
+        }
+      }
+    }
+  });
 </script>
