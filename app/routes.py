@@ -19,7 +19,7 @@ def index():
         {{
             search(term: "{term}",
                     location: "{location}",
-                    limit: 3) {{
+                    limit: 2) {{
                 total
                 business {{
                     name

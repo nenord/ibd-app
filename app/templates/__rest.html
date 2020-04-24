@@ -26,36 +26,46 @@
     </tr>
 </table></div>
 <div class="removable" id="{{ restaurant['alias'] }}">
-  <input type="text" id='{{ restaurant['alias'] }}' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-  <button type="button" name='submit-it' id='{{ restaurant['alias'] }}' class="btn btn-light col-md-1" style="margin: 5px">Submit</button>
-  <button type="button" name='cancel-it' id='{{ restaurant['alias'] }}' class="btn btn-light col-md-1" style="margin: 5px">Cancel</button>
+  <input type="text" id='{{ restaurant['alias'] }}' class="form-control" aria-label="Default"
+    aria-describedby="inputGroup-sizing-default" placeholder="Input less than 100 characters">
+  <button type="button" name='submit-it' id='{{ restaurant['alias'] }}' class="btn btn-light col-md-1"
+    style="margin: 5px">Submit</button>
+  <button type="button" name='cancel-it' id='{{ restaurant['alias'] }}' class="btn btn-light col-md-1"
+    style="margin: 5px">Cancel</button>
 </div>
 
 <script type="text/javascript">
   document.querySelector('[id="{{ restaurant['alias'] }}"][class="removable"]').style.display = 'none';
   document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('[id="{{ restaurant['alias'] }}"][class="btn btn-primary"]').onclick = function () {
-      document.querySelector('[id="{{ restaurant['alias'] }}"][class="removable"]').style.display = 'block';
-      document.querySelectorAll('.btn-primary').forEach(function(button) {
+      var div_toggle = document.querySelector('[id="{{ restaurant['alias'] }}"][class="removable"]');
+      div_toggle.style.display = 'block';
+      var buttons_toggle = document.querySelectorAll('.btn-primary');
+      buttons_toggle.forEach(function(button) {
         button.disabled = true;
       });
       document.querySelector('[id="{{ restaurant['alias'] }}"][name="cancel-it"]').onclick = function () {
-        document.querySelectorAll('.btn-primary').forEach(function(button) {
+        buttons_toggle.forEach(function(button) {
           button.disabled = false;
         });
-        document.querySelector('[id="{{ restaurant['alias'] }}"][class="removable"]').style.display = 'none';
+        div_toggle.style.display = 'none';
       }
       document.querySelector('[id="{{ restaurant['alias'] }}"][name="submit-it"]').onclick = function () {
         const post = document.querySelector('[id="{{ restaurant['alias'] }}"][type="text"]');
         if (post.value == '') {
-          alert('You cannot post empty form!');
+          alert('You cannot post empty form.');
+        }
+        else if (post.value.length > 100) {
+           alert('Input should be less than 100 characters.');
         }
         else {
-          alert(post.value);
-          document.querySelectorAll('.btn-primary').forEach(function(button) {
+          var send_to_flask ='{{ restaurant.alias }}';
+          alert(send_to_flask);
+          buttons_toggle.forEach(function(button) {
             button.disabled = false;
           });
-          document.querySelector('[id="{{ restaurant['alias'] }}"][class="removable"]').style.display = 'none';
+          div_toggle.style.display = 'none';
+          post.value = "";
         }
       }
     }
