@@ -1,6 +1,6 @@
 import requests, json
 from app import app, db
-from flask import render_template, url_for, redirect, flash
+from flask import render_template, url_for, redirect, flash, request, jsonify
 from app.forms import LoginForm, RegisterForm, SearchRestForm
 from flask_login import login_required, current_user, login_user, logout_user
 from app.models import User, Post
@@ -73,3 +73,8 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/addpost', methods=['POST'])
+def addpost():
+    sent_from_js = request.form.get("send_to_flask")
+    return jsonify({"return_text": sent_from_js})

@@ -59,13 +59,24 @@
            alert('Input should be less than 100 characters.');
         }
         else {
-          var send_to_flask ='{{ restaurant.alias }}';
-          alert(send_to_flask);
+          //Example on how to select a varaible received from Flask in js
+          //const send_to_flask ='{{ restaurant.alias }}';
+          const send_to_flask = post.value;
+          const request = new XMLHttpRequest();
+          request.open('POST', '/addpost');
+          request.onload = () => {
+            const resp = JSON.parse(request.responseText);
+            alert(resp.return_text);
+          }
+          const data = new FormData();
+          data.append('send_to_flask', send_to_flask);
+          request.send(data);
           buttons_toggle.forEach(function(button) {
             button.disabled = false;
           });
           div_toggle.style.display = 'none';
           post.value = "";
+          return false;
         }
       }
     }
