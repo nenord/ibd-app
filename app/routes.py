@@ -74,7 +74,7 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.route('/addpost', methods=['POST'])
+@app.route('/addpost', methods=['GET', 'POST'])
 def addpost():
     sent_from_js = request.form.get("send_to_flask")
     return jsonify({"return_text": sent_from_js})
