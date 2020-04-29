@@ -9,6 +9,11 @@ from app.models import User, Post
 @app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
+    return render_template('index.html', title='Homepage')
+
+@app.route('/rest_search', methods=['GET', 'POST'])
+@login_required
+def rest_search():
     form = SearchRestForm()
     if form.validate_on_submit():
         headers = app.config['HEADERS']
@@ -27,6 +32,9 @@ def index():
                     url
                     review_count
                     rating
+                    categories {{
+                        alias
+                    }}
                     location {{
                         address1
                         city
@@ -39,8 +47,8 @@ def index():
         '''
         request = requests.post(endpoints, json={'query': query}, headers=headers)
         result = json.loads(request.text)['data']['search']['business']
-        return render_template('index.html', title='Homepage', form=form, result=result)
-    return render_template('index.html', title='Homepage', form=form)
+        return render_template('rest_search.html', title='Restaurant Search', form=form, result=result)
+    return render_template('rest_search.html', title='Restaurant Search', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -66,7 +74,7 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
 @app.route('/logout')

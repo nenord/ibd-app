@@ -3,15 +3,27 @@
 
 {% block app_content %}
   <p>Hello {{ current_user.username }}</p>
-  <div class="row">
-    <div class="col-md-4">
-      {{ wtf.quick_form(form) }}
-    </div>
-  </div>
+
   <br>
-  <div class="container">
-    {% for restaurant in result %}
-      {% include '__rest.html' %}
-    {% endfor %}
+  <br>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Find meals</h5>
+          <p class="card-text">Search for meals others recommendeded.</p>
+          <a href="#" class="btn btn-primary">Find a meal</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Make a recommendation</h5>
+          <p class="card-text">Find a restaurant using Yelp enables search to recommend a meal.</p>
+          <a href="{{ url_for('rest_search') }}" class="btn btn-primary">Recomend</a>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock %}

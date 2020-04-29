@@ -10,7 +10,7 @@
   #small-hide2, tr td:nth-child(3) { display:none; visibility:hidden; }
   }
 </style>
-<div><table class="table table-hover">
+<table class="table table-hover">
     <tr>
         <td class="col-sm-4">
             <a href={{ restaurant['url'] }}>
@@ -26,6 +26,7 @@
         <td id="small-hide1" class="col-sm-3">
             <p>Rating: {{ restaurant['rating'] }}</p>
             <p>Bassed on {{ restaurant['review_count'] }} rating</p>
+            <p> {{ restaurant['categories'] }} </p>
         </td>
         <td id="small-hide2" class="col-sm-2">
           <a href={{ restaurant['url'] }}>
@@ -37,7 +38,7 @@
           <button type="button" id="{{ restaurant['alias'] }}" class="btn btn-primary pull-right">Recommend</button>
         </td>
     </tr>
-</table></div>
+</table>
 <div class="removable" id="{{ restaurant['alias'] }}">
   <input type="text" id='{{ restaurant['alias'] }}' class="form-control" aria-label="Default"
     aria-describedby="inputGroup-sizing-default" placeholder="Input less than 100 characters">
