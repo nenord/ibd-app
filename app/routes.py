@@ -1,7 +1,7 @@
-import requests, json
+import requests, json, ast
 from app import app, db
 from flask import render_template, url_for, redirect, flash, request, jsonify
-from app.forms import LoginForm, RegisterForm, SearchRestForm
+from app.forms import LoginForm, RegisterForm, SearchRestForm, SearchPostsForm
 from flask_login import login_required, current_user, login_user, logout_user
 from app.models import User, Post
 
@@ -50,6 +50,16 @@ def rest_search():
         return render_template('rest_search.html', title='Restaurant Search', form=form, result=result)
     return render_template('rest_search.html', title='Restaurant Search', form=form)
 
+@app.route('/post_search', methods=['GET', 'POST'])
+@login_required
+def post_search():
+    form = SearchPostsForm()
+    if form.validate_on_submit():
+        posts = Post.query.filter_by(location=form.location.data.lower()).all()
+        return render_template('post_search.html', title='Posts Search', form=form, posts=posts)
+    return render_template('post_search.html', title='Posts Search', form=form)
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -84,5 +94,11 @@ def logout():
 
 @app.route('/addpost', methods=['GET', 'POST'])
 def addpost():
-    sent_from_js = request.form.get("send_to_flask")
-    return jsonify({"return_text": sent_from_js})
+    post_text = request.form.get("post_text")
+    rest_info = request.form.get("rest_info").replace('&#39;', '"')
+    rest_info_toDB = ast.literal_eval(rest_info)
+    post = Post(body=post_text, author=current_user,
+        location=rest_info_toDB['location']['city'].lower(), rest_data=rest_info)
+    db.session.add(post)
+    db.session.commit()
+    return jsonify({"message": 'Your post has been added.'})

@@ -26,7 +26,6 @@
         <td id="small-hide1" class="col-sm-3">
             <p>Rating: {{ restaurant['rating'] }}</p>
             <p>Bassed on {{ restaurant['review_count'] }} rating</p>
-            <p> {{ restaurant['categories'] }} </p>
         </td>
         <td id="small-hide2" class="col-sm-2">
           <a href={{ restaurant['url'] }}>
@@ -74,16 +73,20 @@
         }
         else {
           //Example on how to select a varaible received from Flask in js
-          const send_to_flask ='{{ restaurant.alias }}';
-          //const send_to_flask = post.value;
+          //const send_to_flask ='{{ restaurant.alias }}';
+          //Exampe how to take full restaurant dictionary into a string variable
+          const rest_info = '{{ restaurant }}';
+          //Example how to send input text to Flask in js
+          const post_text = post.value;
           const request = new XMLHttpRequest();
           request.open('POST', '/addpost');
           request.onload = () => {
             const resp = JSON.parse(request.responseText);
-            alert(resp.return_text);
+            alert(resp.message);
           }
           const data = new FormData();
-          data.append('send_to_flask', send_to_flask);
+          data.append('rest_info', rest_info);
+          data.append('post_text', post_text);
           request.send(data);
           buttons_toggle.forEach(function(button) {
             button.disabled = false;

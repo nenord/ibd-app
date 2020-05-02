@@ -1,0 +1,9 @@
+<table class="table table-hover">
+    <tr>
+        <td class="col-sm-4">
+          <p>User {{ post.author.username }} says:</p>
+          {{ post.body }}
+          <p id="{{ post.id }}"> @ {{ post.rest_data }} </p>
+        </td>
+    </tr>
+</table>
