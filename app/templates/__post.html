@@ -3,7 +3,14 @@
         <td class="col-sm-4">
           <p>User {{ post.author.username }} says:</p>
           {{ post.body }}
-          <p id="{{ post.id }}"> @ {{ post.rest_data }} </p>
+          <p id="{{ post.id }}"></p>
         </td>
     </tr>
 </table>
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function () {
+    var rest_data = JSON.parse({{post.rest_data|tojson}});
+    document.querySelector('[id="{{ post['id'] }}"]').innerHTML = "@  " + rest_data.name;
+  });
+</script>

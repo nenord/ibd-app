@@ -1,4 +1,4 @@
-import requests, json, ast
+import requests, json
 from app import app, db
 from flask import render_template, url_for, redirect, flash, request, jsonify
 from app.forms import LoginForm, RegisterForm, SearchRestForm, SearchPostsForm
@@ -95,10 +95,10 @@ def logout():
 @app.route('/addpost', methods=['GET', 'POST'])
 def addpost():
     post_text = request.form.get("post_text")
-    rest_info = request.form.get("rest_info").replace('&#39;', '"')
-    rest_info_toDB = ast.literal_eval(rest_info)
+    rest_info = request.form.get("rest_info")
+    location = request.form.get("location")
     post = Post(body=post_text, author=current_user,
-        location=rest_info_toDB['location']['city'].lower(), rest_data=rest_info)
+        location=location.lower(), rest_data=rest_info)
     db.session.add(post)
     db.session.commit()
     return jsonify({"message": 'Your post has been added.'})
