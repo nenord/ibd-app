@@ -55,7 +55,7 @@ def rest_search():
 def post_search():
     form = SearchPostsForm()
     if form.validate_on_submit():
-        posts = Post.query.filter_by(location=form.location.data.lower()).all()
+        posts = Post.query.filter_by(location=form.location.data.lower().strip()).all()
         return render_template('post_search.html', title='Posts Search', form=form, posts=posts)
     return render_template('post_search.html', title='Posts Search', form=form)
 
