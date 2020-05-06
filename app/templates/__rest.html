@@ -85,9 +85,15 @@
             alert(resp.message);
           }
           const data = new FormData();
-          data.append('rest_info', JSON.stringify(rest_info));
           data.append('post_text', post_text);
-          data.append('location', rest_info.location.city)
+          data.append('name', rest_info.name);
+          data.append('alias', rest_info.alias);
+          data.append('url', rest_info.url);
+          data.append('categories', JSON.stringify(rest_info.categories));
+          data.append('city', rest_info.location.city);
+          data.append('address', rest_info.location.address1);
+          data.append('postal_code', rest_info.location.postal_code);
+          data.append('country', rest_info.location.country);
           request.send(data);
           buttons_toggle.forEach(function(button) {
             button.disabled = false;

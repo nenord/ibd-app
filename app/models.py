@@ -19,13 +19,27 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+class Rest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    alias = db.Column(db.String(64))
+    url = db.Column(db.String(240))
+    categories = db.Column(db.String(100))
+    city = db.Column(db.String(32))
+    address = db.Column(db.String(64))
+    postal_code = db.Column(db.String(16))
+    country = db.Column(db.String(24))
+    posts = db.relationship('Post', backref='restaurant', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Rest {}>'.format(self.alias)
+
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    location = db.Column(db.String(32))
     body = db.Column(db.String(140))
-    rest_data = db.Column(db.String(700))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    rest_id = db.Column(db.Integer, db.ForeignKey('rest.id'))
 
 
     def __repr__(self):

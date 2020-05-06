@@ -3,7 +3,7 @@ from app import app, db
 from flask import render_template, url_for, redirect, flash, request, jsonify
 from app.forms import LoginForm, RegisterForm, SearchRestForm, SearchPostsForm
 from flask_login import login_required, current_user, login_user, logout_user
-from app.models import User, Post
+from app.models import User, Post, Rest
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -55,8 +55,8 @@ def rest_search():
 def post_search():
     form = SearchPostsForm()
     if form.validate_on_submit():
-        posts = Post.query.filter_by(location=form.location.data.lower().strip()).all()
-        return render_template('post_search.html', title='Posts Search', form=form, posts=posts)
+        rests = Rest.query.filter_by(city=form.location.data.strip()).all()
+        return render_template('post_search.html', title='Posts Search', form=form, rests=rests)
     return render_template('post_search.html', title='Posts Search', form=form)
 
 
@@ -94,11 +94,16 @@ def logout():
 
 @app.route('/addpost', methods=['GET', 'POST'])
 def addpost():
+    alias = request.form.get("alias")
+    if (Rest.query.filter_by(alias=alias).first() is None):
+        rest = Rest(name=request.form.get("name"), alias=alias, url=request.form.get("url"),
+        categories=request.form.get("categories"), city=request.form.get("city"), address=request.form.get("address"),
+        postal_code=request.form.get("postal_code"), country=request.form.get("country"))
+        db.session.add(rest)
+        db.session.commit()
+    this_rest_id = Rest.query.filter_by(alias=alias).first()
     post_text = request.form.get("post_text")
-    rest_info = request.form.get("rest_info")
-    location = request.form.get("location")
-    post = Post(body=post_text, author=current_user,
-        location=location.lower(), rest_data=rest_info)
+    post = Post(body=post_text, author=current_user, rest_id=this_rest_id.id)
     db.session.add(post)
     db.session.commit()
     return jsonify({"message": 'Your post has been added.'})
