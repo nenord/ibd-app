@@ -1,40 +1,38 @@
 <style media="screen">
-  #logo {margin-top: 15px;}
-
-  @media only screen and (max-width: 800px) {
-  #small-hide1, tr td:nth-child(2) { display:none; visibility:hidden; }
-  }
 
   @media only screen and (max-width: 600px) {
-	#small-hide1, tr td:nth-child(2) { display:none; visibility:hidden; }
-  #small-hide2, tr td:nth-child(3) { display:none; visibility:hidden; }
+  #small-hide, tr td:nth-child(2) { display:none; visibility:hidden; }
   }
+
+  #table-1 { max-width: 800px }
+
+  .grayed-out { color: gray }
+
+  #dont-hide { width: 50% }
+  #small-hide { width: 30% }
+  #dont-hide-button { width: 20% }
+
 </style>
 
-<table class="table table-hover">
+<table id="table-1" class="table table-hover">
     <tr>
-        <td class="col-sm-4">
-            <a href={{ restaurant['url'] }}>
+        <td id="dont-hide">
+            <a href={{ restaurant['url'] }} target="_blank">
                 {{ restaurant['name']}}
             </a><br>
-                {{ restaurant['location']['city'] }}<br>
+                <p class="grayed-out">{{ restaurant['location']['city'] }}</p>
                 {% if restaurant['location']['address1'] %}
-                <p>{{ restaurant['location']['address1'] }}, {{ restaurant['location']['postal_code'] }}</p>
+                <p class="grayed-out">{{ restaurant['location']['address1'] }}, {{ restaurant['location']['postal_code'] }}</p>
                 {% else %}
-                <p>{{ restaurant['location']['postal_code'] }}</p>
+                <p class="grayed-out">{{ restaurant['location']['postal_code'] }}</p>
                 {% endif %}
         </td>
-        <td id="small-hide1" class="col-sm-3">
+        <td id="small-hide">
             <p>Rating: {{ restaurant['rating'] }}</p>
-            <p>Bassed on {{ restaurant['review_count'] }} rating</p>
+            <p class="grayed-out">Based on {{ restaurant['review_count'] }} rating</p>
         </td>
-        <td id="small-hide2" class="col-sm-2">
-          <a href={{ restaurant['url'] }}>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Yelp_Logo.svg/1200px-Yelp_Logo.svg.png"
-              class="pull-right" id="logo" width="80" alt="Yelp logo" />
-          </a>
-        </td>
-        <td class="col-sm-3"><br>
+
+        <td id="dont-hide-button"><br>
           <button type="button" id="{{ restaurant['alias'] }}" class="btn btn-primary pull-right">Recommend</button>
         </td>
     </tr>

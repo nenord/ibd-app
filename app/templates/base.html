@@ -51,6 +51,7 @@
         </ul>
       {% endif %}
     {% endwith %}
+    <p>Hello {{ current_user.username|capitalize() }}</p>
     {% block app_content %}{% endblock %}
   </div>
 {% endblock %}

@@ -1,11 +1,46 @@
-<table class="table table-hover">
+<style media="screen">
+
+  @media only screen and (max-width: 600px) {
+  #small-hide, tr td:nth-child(2) { display:none; visibility:hidden; }
+  }
+
+  .table-hover { max-width: 800px }
+
+  .grayed-out { color: gray }
+
+  #dont-hide { width: 50% }
+  #small-hide { width: 30% }
+  #dont-hide-button { width: 20% }
+
+</style>
+
+<table id="table-1" class="table table-hover">
     <tr>
-        <td class="col-sm-4">
-          <p>{{ rest.name }}</p>
+      <td id="dont-hide">
+          <a href={{ rest.url }} target="_blank">
+              {{ rest.name }}
+          </a><br>
+              <p class="grayed-out">{{ rest.city }}</p>
+              {% if rest.address %}
+              <p class="grayed-out">{{ rest.address }}, {{ rest.postal_code }}</p>
+              {% else %}
+              <p class="grayed-out">{{ rest.postal_code }}</p>
+              {% endif %}
+      </td>
+      <td id="small-hide">
+          <p>Restaurant rating</p>
+          <p class="grayed-out">Based on number of rating</p>
+      </td>
+    </tr>
+</table>
+<table id="table-2" class="table table-hover">
+    <tr>
+      <td id="posts-id">
           {% for post in rest.posts %}
-            <p>{{ post.body }}</p>
-            <p>{{ post.author.username }}</p>
+            <p>{{ post.author.username|capitalize() }} said:</p>
+            <p> {{ post.body }}</p>
+            <br>
           {% endfor %}
-        </td>
+      </td>
     </tr>
 </table>
