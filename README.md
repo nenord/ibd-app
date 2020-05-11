@@ -9,9 +9,9 @@ User recommendations will then be combined with restaurant information from Yelp
 ## Current status
 App is in the early stage of development
 Currently users can:
--	log in, register, and log out,
-- all pages have a navbar
--	see the front page,
+-	register, log in, and log out,
+- all pages have a navbar with links to all sub-pages,
+-	front page with cards pointing to browse posts and add a meal pages,
 - page for browsing posts based on location only (for now),
 - page for adding posts by finding restaurants and adding comments to restaurants 
 -	pull and view restaurant information using Yelp API based on location and one additional search term
