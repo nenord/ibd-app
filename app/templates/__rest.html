@@ -4,7 +4,9 @@
   #small-hide, tr td:nth-child(2) { display:none; visibility:hidden; }
   }
 
-  #table-1 { max-width: 800px }
+  .table { max-width: 800px }
+
+  .removable { max-width: 800px }
 
   .grayed-out { color: gray }
 
@@ -13,38 +15,42 @@
   #dont-hide-button { width: 20% }
 
 </style>
+<div>
+  <table id="table-1" class="table table-hover">
+      <tr>
+          <td id="dont-hide">
+              <a href={{ restaurant['url'] }} target="_blank">
+                  {{ restaurant['name']}}
+              </a><br>
+                  <p class="grayed-out">{{ restaurant['location']['city'] }}</p>
+                  {% if restaurant['location']['address1'] %}
+                  <p class="grayed-out">{{ restaurant['location']['address1'] }}, {{ restaurant['location']['postal_code'] }}</p>
+                  {% else %}
+                  <p class="grayed-out">{{ restaurant['location']['postal_code'] }}</p>
+                  {% endif %}
+          </td>
+          <td id="small-hide">
+              <p>Rating: {{ restaurant['rating'] }}</p>
+              <p class="grayed-out">Based on {{ restaurant['review_count'] }} rating</p>
+          </td>
 
-<table id="table-1" class="table table-hover">
-    <tr>
-        <td id="dont-hide">
-            <a href={{ restaurant['url'] }} target="_blank">
-                {{ restaurant['name']}}
-            </a><br>
-                <p class="grayed-out">{{ restaurant['location']['city'] }}</p>
-                {% if restaurant['location']['address1'] %}
-                <p class="grayed-out">{{ restaurant['location']['address1'] }}, {{ restaurant['location']['postal_code'] }}</p>
-                {% else %}
-                <p class="grayed-out">{{ restaurant['location']['postal_code'] }}</p>
-                {% endif %}
-        </td>
-        <td id="small-hide">
-            <p>Rating: {{ restaurant['rating'] }}</p>
-            <p class="grayed-out">Based on {{ restaurant['review_count'] }} rating</p>
-        </td>
+          <td id="dont-hide-button"><br>
+            <button type="button" id="{{ restaurant['alias'] }}" class="btn btn-primary pull-right">Recommend</button>
+          </td>
+      </tr>
+  </table>
+</div>
 
-        <td id="dont-hide-button"><br>
-          <button type="button" id="{{ restaurant['alias'] }}" class="btn btn-primary pull-right">Recommend</button>
-        </td>
-    </tr>
-</table>
 <div class="removable" id="{{ restaurant['alias'] }}">
   <input type="text" id='{{ restaurant['alias'] }}' class="form-control" aria-label="Default"
     aria-describedby="inputGroup-sizing-default" placeholder="Input less than 100 characters">
-  <button type="button" name='submit-it' id='{{ restaurant['alias'] }}' class="btn btn-light col-md-1"
-    style="margin: 5px">Submit</button>
-  <button type="button" name='cancel-it' id='{{ restaurant['alias'] }}' class="btn btn-light col-md-1"
-    style="margin: 5px">Cancel</button>
-</div>
+  <div>
+    <button type="button" name='submit-it' id='{{ restaurant['alias'] }}' class="btn btn-light col-md-1"
+      style="margin: 5px">Submit</button>
+    <button type="button" name='cancel-it' id='{{ restaurant['alias'] }}' class="btn btn-light col-md-1"
+      style="margin: 5px">Cancel</button><br>
+  </div><br>
+</div><br>
 
 <script type="text/javascript">
   document.querySelector('[id="{{ restaurant['alias'] }}"][class="removable"]').style.display = 'none';

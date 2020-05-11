@@ -7,7 +7,8 @@
       {{ wtf.quick_form(form) }}
     </div>
   </div>
-  <br>
+  <p style="color:gray; padding-top: 5px">by <a href="https://yelp.com" target="_blank">
+    <img src="{{url_for('static', filename='Yelp_Logo.png')}}" width="80px" alt="Yelp logo"></a></p>
   <div class="container">
     {% for rest in rests %}
       {% include '__post.html' %}
