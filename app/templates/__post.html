@@ -20,26 +20,24 @@
           <a href={{ rest.url }} target="_blank">
               {{ rest.name }}
           </a><br>
-              <p class="grayed-out">{{ rest.city }}</p>
-              {% if rest.address %}
-              <p class="grayed-out">{{ rest.address }}, {{ rest.postal_code }}</p>
-              {% else %}
-              <p class="grayed-out">{{ rest.postal_code }}</p>
-              {% endif %}
+          <p>Restaurant rating</p>
+          <p class="grayed-out">Based on (insert number) ratings</p>
       </td>
       <td id="small-hide">
-          <p>Restaurant rating</p>
-          <p class="grayed-out">Based on number of rating</p>
+        <p class="grayed-out">{{ rest.city }}</p>
+        {% if rest.address %}
+        <p class="grayed-out">{{ rest.address }}, {{ rest.postal_code }}</p>
+        {% else %}
+        <p class="grayed-out">{{ rest.postal_code }}</p>
+        {% endif %}
+
       </td>
     </tr>
-</table>
-<table id="table-2" class="table table-hover">
     <tr>
-      <td id="posts-id">
+      <td id="posts-id" colspan="2" style="width:100%; padding-left:20px">
           {% for post in rest.posts %}
-            <p>{{ post.author.username|capitalize() }} said:</p>
-            <p> {{ post.body }}</p>
-            <br>
+            <p><span style="font-weight:bold"> {{ post.body }}</span>
+              <span style="color:grey"> &emsp;&emsp; by user: {{ post.author.username }}</span></p>
           {% endfor %}
       </td>
     </tr>

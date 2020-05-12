@@ -10,8 +10,8 @@
 
   .grayed-out { color: gray }
 
-  #dont-hide { width: 50% }
-  #small-hide { width: 30% }
+  #dont-hide { width: 40% }
+  #small-hide { width: 40% }
   #dont-hide-button { width: 20% }
 
 </style>
@@ -20,18 +20,21 @@
       <tr>
           <td id="dont-hide">
               <a href={{ restaurant['url'] }} target="_blank">
-                  {{ restaurant['name']}}
+                {{ restaurant['name']}}
               </a><br>
-                  <p class="grayed-out">{{ restaurant['location']['city'] }}</p>
-                  {% if restaurant['location']['address1'] %}
-                  <p class="grayed-out">{{ restaurant['location']['address1'] }}, {{ restaurant['location']['postal_code'] }}</p>
-                  {% else %}
-                  <p class="grayed-out">{{ restaurant['location']['postal_code'] }}</p>
-                  {% endif %}
+              {% set rest_rate_num = restaurant['rating'] %}
+              {% set rest_rate_str = 'regular_%.1f.png' % rest_rate_num %}
+              <img src="{{url_for('static', filename=rest_rate_str)}}" alt="Yelp stars">
+              <p class="grayed-out">Based on {{ restaurant['review_count'] }} ratings</p>
           </td>
+
           <td id="small-hide">
-              <p>Rating: {{ restaurant['rating'] }}</p>
-              <p class="grayed-out">Based on {{ restaurant['review_count'] }} rating</p>
+            <p class="grayed-out">{{ restaurant['location']['city'] }}</p>
+            {% if restaurant['location']['address1'] %}
+            <p class="grayed-out">{{ restaurant['location']['address1'] }}, {{ restaurant['location']['postal_code'] }}</p>
+            {% else %}
+            <p class="grayed-out">{{ restaurant['location']['postal_code'] }}</p>
+            {% endif %}
           </td>
 
           <td id="dont-hide-button"><br>
