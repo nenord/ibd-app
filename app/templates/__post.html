@@ -20,8 +20,10 @@
           <a href={{ rest.url }} target="_blank">
               {{ rest.name }}
           </a><br>
-          <p>Restaurant rating</p>
-          <p class="grayed-out">Based on (insert number) ratings</p>
+          {% set rest_rate_num = rest.rating %}
+          {% set rest_rate_str = 'regular_%.1f.png' % rest_rate_num %}
+          <img src="{{url_for('static', filename=rest_rate_str)}}" alt="Yelp stars">
+          <p class="grayed-out">Based on {{ rest.review_count }} ratings</p>      
       </td>
       <td id="small-hide">
         <p class="grayed-out">{{ rest.city }}</p>

@@ -101,6 +101,8 @@
           data.append('address', rest_info.location.address1);
           data.append('postal_code', rest_info.location.postal_code);
           data.append('country', rest_info.location.country);
+          data.append('rating', rest_info.rating);
+          data.append('review_count', rest_info.review_count);
           request.send(data);
           buttons_toggle.forEach(function(button) {
             button.disabled = false;

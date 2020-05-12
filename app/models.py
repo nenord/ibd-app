@@ -29,6 +29,8 @@ class Rest(db.Model):
     address = db.Column(db.String(64))
     postal_code = db.Column(db.String(16))
     country = db.Column(db.String(24))
+    rating = db.Column(db.Float)
+    review_count = db.Column(db.Integer)
     posts = db.relationship('Post', backref='restaurant', lazy='dynamic')
 
     def __repr__(self):

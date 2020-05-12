@@ -98,7 +98,8 @@ def addpost():
     if (Rest.query.filter_by(alias=alias).first() is None):
         rest = Rest(name=request.form.get("name"), alias=alias, url=request.form.get("url"),
         categories=request.form.get("categories"), city=request.form.get("city"), address=request.form.get("address"),
-        postal_code=request.form.get("postal_code"), country=request.form.get("country"))
+        postal_code=request.form.get("postal_code"), country=request.form.get("country"),
+        rating=request.form.get("rating"), review_count=request.form.get("review_count"))
         db.session.add(rest)
         db.session.commit()
     this_rest_id = Rest.query.filter_by(alias=alias).first()
