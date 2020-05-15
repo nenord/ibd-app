@@ -24,7 +24,7 @@ def rest_search():
         {{
             search(term: "{term}",
                     location: "{location}",
-                    limit: 2) {{
+                    limit: 5) {{
                 total
                 business {{
                     name
