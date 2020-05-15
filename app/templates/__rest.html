@@ -58,6 +58,9 @@
 <script type="text/javascript">
   document.querySelector('[id="{{ restaurant['alias'] }}"][class="removable"]').style.display = 'none';
   document.addEventListener('DOMContentLoaded', function () {
+    if (document.contains(document.getElementById("table-1"))) {
+      document.getElementById("frm").scrollIntoView();
+    }
     document.querySelector('[id="{{ restaurant['alias'] }}"][class="btn btn-primary pull-right"]').onclick = function () {
       var div_toggle = document.querySelector('[id="{{ restaurant['alias'] }}"][class="removable"]');
       div_toggle.style.display = 'block';
