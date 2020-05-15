@@ -2,15 +2,19 @@
   .thumbnail {
     padding: 30px;
   }
+  .grayed-out { color: gray }
 </style>
 
 {% extends 'base.html' %}
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-  <br>
-  <br>
 
+  <p>Welcome to InflaBeeDee, a site that helps people with IBD recommend eating out options to each other.</p>
+  <p>Hopefully, it will make eating out a little less stressful.</p>
+  <p class="grayed-out">Disclaimer: Recommendations are for reference only.
+    If a meal does not hurt one person with UC, it does not mean it will be safe for all people with UC.</p>
+    <br>
   <div class="row">
     <div class="col-sm-6 col-md-4">
       <div class="thumbnail">
@@ -25,7 +29,7 @@
       <div class="thumbnail">
         <div class="caption">
           <h3>Add Meals</h3>
-          <p>Find a restaurant using Yelp enabled search to recommend a meal.</p>
+          <p>Find a restaurant to recommend a meal with Yelp search.</p>
           <p><a href="{{ url_for('rest_search') }}" class="btn btn-primary" role="button">Add a meal</a></p>
         </div>
       </div>

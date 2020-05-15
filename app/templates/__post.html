@@ -4,7 +4,11 @@
   #small-hide, tr td:nth-child(2) { display:none; visibility:hidden; }
   }
 
-  .table-hover { max-width: 800px }
+  .table-hover {
+    max-width: 800px;
+  }
+
+
 
   .grayed-out { color: gray }
 
@@ -23,7 +27,7 @@
           {% set rest_rate_num = rest.rating %}
           {% set rest_rate_str = 'regular_%.1f.png' % rest_rate_num %}
           <img src="{{url_for('static', filename=rest_rate_str)}}" alt="Yelp stars">
-          <p class="grayed-out">Based on {{ rest.review_count }} ratings</p>      
+          <p class="grayed-out">Based on {{ rest.review_count }} ratings</p>
       </td>
       <td id="small-hide">
         <p class="grayed-out">{{ rest.city }}</p>
@@ -36,10 +40,10 @@
       </td>
     </tr>
     <tr>
-      <td id="posts-id" colspan="2" style="width:100%; padding-left:20px">
+      <td id="posts-id" colspan="2" style="width:100%; padding-left:20px;">
           {% for post in rest.posts %}
-            <p><span style="font-weight:bold"> {{ post.body }}</span>
-              <span style="color:grey"> &emsp;&emsp; by user: {{ post.author.username }}</span></p>
+            <br><p> {{ post.body }}
+              <span class="grayed-out" style="font-style: italic;"> &emsp;&emsp;&emsp; Author: {{ post.author.username }}</span></p>
           {% endfor %}
       </td>
     </tr>
