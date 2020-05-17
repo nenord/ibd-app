@@ -16,7 +16,7 @@ def index():
 def rest_search():
     form = SearchRestForm()
     if form.validate_on_submit():
-        headers = json.loads(app.config['HEADERS'])
+        headers = app.config['HEADERS']
         endpoints = app.config['ENDPOINTS']
         location = form.location.data
         term = form.term.data
