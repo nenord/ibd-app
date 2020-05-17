@@ -1,22 +1,3 @@
-<style media="screen">
-
-  @media only screen and (max-width: 600px) {
-  #small-hide, tr td:nth-child(2) { display:none; visibility:hidden; }
-  }
-
-  .table-hover {
-    max-width: 800px;
-  }
-
-
-
-  .grayed-out { color: gray }
-
-  #dont-hide { width: 50% }
-  #small-hide { width: 30% }
-  #dont-hide-button { width: 20% }
-
-</style>
 
 <table id="table-1" class="table table-hover">
     <tr>
@@ -43,7 +24,7 @@
       <td id="posts-id" colspan="2" style="width:100%; padding-left:20px;">
           {% for post in rest.posts %}
             <br><p> {{ post.body }}
-              <span class="grayed-out" style="font-style: italic;"> &emsp;&emsp;&emsp; Author: {{ post.author.username }}</span></p>
+              <span class="grayed-out"> | by {{ post.author.username }}</span></p>
           {% endfor %}
       </td>
     </tr>
