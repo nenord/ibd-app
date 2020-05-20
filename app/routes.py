@@ -7,7 +7,6 @@ from app.models import User, Post, Rest
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
-@login_required
 def index():
     return render_template('index.html', title='Homepage')
 
@@ -46,16 +45,22 @@ def rest_search():
         }}
         '''
         request = requests.post(endpoints, json={'query': query}, headers=headers)
-        result = json.loads(request.text)['data']['search']['business']
+        check = json.loads(request.text)
+        if 'errors' in check.keys():
+            flash(check['errors'][0]['message'])
+            return redirect(url_for('rest_search'))
+        result = check['data']['search']['business']
         return render_template('rest_search.html', title='Restaurant Search', form=form, result=result)
     return render_template('rest_search.html', title='Restaurant Search', form=form)
 
 @app.route('/post_search', methods=['GET', 'POST'])
-@login_required
 def post_search():
     form = SearchPostsForm()
     if form.validate_on_submit():
         rests = Rest.query.filter_by(city=form.location.data.strip().capitalize()).all()
+        if rests == []:
+            flash (f'There are no recommendations for {form.location.data} yet, maybe you can make one!')
+            return redirect(url_for('post_search'))
         return render_template('post_search.html', title='Posts Search', form=form, rests=rests)
     return render_template('post_search.html', title='Posts Search', form=form)
 
@@ -87,11 +92,6 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('index'))
-
 @app.route('/addpost', methods=['GET', 'POST'])
 def addpost():
     alias = request.form.get("alias")
@@ -108,3 +108,15 @@ def addpost():
     db.session.add(post)
     db.session.commit()
     return jsonify({"message": 'Your post has been added.'})
+
+@app.before_request
+def before_request():
+    if request.url.startswith('http://'):
+        url = request.url.replace('http://', 'https://', 1)
+        code = 301
+        return redirect(url, code=code)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
