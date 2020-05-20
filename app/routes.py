@@ -50,6 +50,9 @@ def rest_search():
             flash(check['errors'][0]['message'])
             return redirect(url_for('rest_search'))
         result = check['data']['search']['business']
+        if result == []:
+            flash ('Yelp cannot find restaurants for that combination of inputs!')
+            return redirect(url_for('rest_search'))
         return render_template('rest_search.html', title='Restaurant Search', form=form, result=result)
     return render_template('rest_search.html', title='Restaurant Search', form=form)
 
