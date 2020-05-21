@@ -21,7 +21,7 @@ Currently users can:
 The list above completes first stage of the development. App is deployed as new features are added.
 
 ## Roadmap
-- User New Relic to keep app from going to sleep
+- Use New Relic addon to keep app from going to sleep on Heroku
 - Better error logging on Heroku
 - Additional search term for recommendations 
 - Pagination for restaurant search and recommendation search
