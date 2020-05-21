@@ -118,14 +118,14 @@ def addpost():
     db.session.add(post)
     db.session.commit()
     return jsonify({"message": 'Your post has been added.'})
-'''
+
 @app.before_request
 def before_request():
     if request.url.startswith('http://'):
         url = request.url.replace('http://', 'https://', 1)
         code = 301
         return redirect(url, code=code)
-'''
+
 @app.route('/logout')
 def logout():
     logout_user()
