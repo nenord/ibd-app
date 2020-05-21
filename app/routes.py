@@ -46,10 +46,10 @@ def rest_search():
         }}
         '''
         request = requests.post(endpoints, json={'query': query}, headers=headers)
-        check = json.loads(request.text)
-        if check.status_code != 200:
+        if request.status_code != 200:
             flash('Something went wrong with Yelp search, please try again.')
             return redirect(url_for('rest_search'))
+        check = json.loads(request.text)
         if 'errors' in check.keys():
             flash(check['errors'][0]['message'])
             return redirect(url_for('rest_search'))
