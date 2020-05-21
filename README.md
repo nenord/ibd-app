@@ -13,10 +13,10 @@ Currently users can:
 - log in required only to make a recommendation,
 - all pages have a navbar with links to all sub-pages,
 -	front page with cards pointing to browse posts and add a meal pages,
-- page for browsing posts based on location only (for now),
-- page for adding posts by finding restaurants and adding comments to restaurants 
--	pull and view restaurant information using Yelp API based on location and one additional search term
-- add post by making a comment against the restaurant user selected (restaurant list and descriptions from Yelp)
+- page for browsing posts based on location only (for now - as number of posts grow, add additional search term),
+- page for adding posts by finding restaurants and adding comments to restaurants,
+-	pull and view restaurant information using Yelp API based on location and additional search terms,
+- add post by making a recommendation against the restaurant user selected (restaurant list and descriptions from Yelp)
 
 The list above completes first stage of the development. App is deployed as new features are added.
 
