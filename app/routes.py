@@ -4,6 +4,7 @@ from flask import render_template, url_for, redirect, flash, request, jsonify
 from app.forms import LoginForm, RegisterForm, SearchRestForm, SearchPostsForm
 from flask_login import login_required, current_user, login_user, logout_user
 from app.models import User, Post, Rest
+from werkzeug.urls import url_parse
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -46,6 +47,9 @@ def rest_search():
         '''
         request = requests.post(endpoints, json={'query': query}, headers=headers)
         check = json.loads(request.text)
+        if check.status_code != 200:
+            flash('Something went wrong with Yelp search, please try again.')
+            return redirect(url_for('rest_search'))
         if 'errors' in check.keys():
             flash(check['errors'][0]['message'])
             return redirect(url_for('rest_search'))
@@ -79,7 +83,10 @@ def login():
             flash ('Invalid name or password')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
-        return redirect(url_for('index'))
+        next_page = request.args.get('next')
+        if not next_page or url_parse(next_page).netloc != '':
+            next_page = url_for('index')
+        return redirect(next_page)
     return render_template('login.html', title='Sign-in', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -111,14 +118,14 @@ def addpost():
     db.session.add(post)
     db.session.commit()
     return jsonify({"message": 'Your post has been added.'})
-
+'''
 @app.before_request
 def before_request():
     if request.url.startswith('http://'):
         url = request.url.replace('http://', 'https://', 1)
         code = 301
         return redirect(url, code=code)
-
+'''
 @app.route('/logout')
 def logout():
     logout_user()

@@ -54,7 +54,9 @@ href= "{{ url_for('static',filename='style.css') }}">
         </ul>
       {% endif %}
     {% endwith %}
-    <h3>Hello {{ current_user.username }}</h3>
+    {% if current_user.is_authenticated %}
+      <h2>Hello {{ current_user.username }}</h2>
+    {% endif %}
     {% block app_content %}{% endblock %}
   </div>
 {% endblock %}
