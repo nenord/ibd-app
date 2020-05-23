@@ -24,7 +24,7 @@
       <td id="posts-id" colspan="2" style="width:100%; padding-left:20px;">
           {% for post in rest.posts %}
             <br><p> {{ post.body }}
-              <span class="grayed-out"> | by {{ post.author.username }}</span></p>
+              <span class="grayed-out"> | by {{ post.author.username }} | {{ moment(post.timestamp).fromNow() }}</span></p>
           {% endfor %}
       </td>
     </tr>

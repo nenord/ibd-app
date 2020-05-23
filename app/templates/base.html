@@ -2,7 +2,7 @@
 
 {% block scripts %}
     {{ super() }}
-    <!-- insert reference to any additional paclakes like moments -->
+    {{ moment.include_moment() }}
 {% endblock %}
 
 {% block title %}
