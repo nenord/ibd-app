@@ -28,10 +28,10 @@ class RegisterForm(FlaskForm):
             raise ValidationError('Choose a different email!')
 
 class SearchRestForm(FlaskForm):
-    location = StringField('Location *', validators=[DataRequired()])
-    term = StringField('Additional search term - optional')
+    location = StringField('Location *', validators=[DataRequired()], render_kw = {'placeholder': 'Town or city'})
+    term = StringField('Additional search term - optional', render_kw = {'placeholder': 'Restaurant name, type or a street'})
     submit = SubmitField('Search')
 
 class SearchPostsForm(FlaskForm):
-    location = StringField('Location *', validators=[DataRequired()])
+    location = StringField('Location *', validators=[DataRequired()], render_kw = {'placeholder': 'Town or city'})
     submit = SubmitField('Search')
