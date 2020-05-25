@@ -3,7 +3,7 @@ from app import app, db
 from flask import render_template, url_for, redirect, flash, request, jsonify
 from app.forms import LoginForm, RegisterForm, SearchRestForm, SearchPostsForm
 from flask_login import login_required, current_user, login_user, logout_user
-from app.models import User, Post, Rest
+from app.models import User, Post, Rest, Counters
 from werkzeug.urls import url_parse
 
 @app.route('/', methods=['GET', 'POST'])
@@ -16,6 +16,9 @@ def index():
 def rest_search():
     form = SearchRestForm()
     if form.validate_on_submit():
+        rest_counter = Counters.query.get(2)
+        rest_counter.count += 1
+        db.session.commit()
         headers = json.loads(app.config['HEADERS'])
         endpoints = app.config['ENDPOINTS']
         location = form.location.data
@@ -64,6 +67,9 @@ def rest_search():
 def post_search():
     form = SearchPostsForm()
     if form.validate_on_submit():
+        post_counter = Counters.query.get(1)
+        post_counter.count += 1
+        db.session.commit()
         rests = Rest.query.filter_by(city=form.location.data.strip().capitalize()).all()
         if rests == []:
             flash (f'There are no recommendations for {form.location.data} yet, maybe you can make one!')
@@ -118,14 +124,14 @@ def addpost():
     db.session.add(post)
     db.session.commit()
     return jsonify({"message": 'Your post has been added.'})
-
+'''
 @app.before_request
 def before_request():
     if request.url.startswith('http://'):
         url = request.url.replace('http://', 'https://', 1)
         code = 301
         return redirect(url, code=code)
-
+'''
 @app.route('/logout')
 def logout():
     logout_user()
