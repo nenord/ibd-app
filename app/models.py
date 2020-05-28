@@ -31,6 +31,7 @@ class Rest(db.Model):
     country = db.Column(db.String(24))
     rating = db.Column(db.Float)
     review_count = db.Column(db.Integer)
+    timestamp = db.Column(db.DateTime, index=True)
     posts = db.relationship('Post', backref='restaurant', lazy='dynamic')
 
     def __repr__(self):

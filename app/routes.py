@@ -1,5 +1,6 @@
 import requests, json
 from app import app, db
+from datetime import datetime
 from flask import render_template, url_for, redirect, flash, request, jsonify
 from app.forms import LoginForm, RegisterForm, SearchRestForm, SearchPostsForm
 from flask_login import login_required, current_user, login_user, logout_user
@@ -70,7 +71,8 @@ def post_search():
         post_counter = Counters.query.get(1)
         post_counter.count += 1
         db.session.commit()
-        rests = Rest.query.filter_by(city=form.location.data.strip().capitalize()).all()
+        city = form.location.data.strip().capitalize()
+        rests = Rest.query.filter_by(city=city).order_by(Rest.timestamp.desc()).all()
         if rests == []:
             flash (f'There are no recommendations for {form.location.data} yet, maybe you can make one!')
             return redirect(url_for('post_search'))
@@ -105,6 +107,7 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
+        flash ('Account registered successfully!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
@@ -118,9 +121,10 @@ def addpost():
         rating=request.form.get("rating"), review_count=request.form.get("review_count"))
         db.session.add(rest)
         db.session.commit()
-    this_rest_id = Rest.query.filter_by(alias=alias).first()
+    this_rest = Rest.query.filter_by(alias=alias).first()
+    this_rest.timestamp = datetime.utcnow()
     post_text = request.form.get("post_text")
-    post = Post(body=post_text, author=current_user, rest_id=this_rest_id.id)
+    post = Post(body=post_text, author=current_user, rest_id=this_rest.id)
     db.session.add(post)
     db.session.commit()
     return jsonify({"message": 'Your post has been added.'})
