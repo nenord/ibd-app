@@ -14,7 +14,7 @@
 <link rel= "stylesheet" type= "text/css"
 href= "{{ url_for('static',filename='style.css') }}">
 
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-inverse">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -23,11 +23,11 @@ href= "{{ url_for('static',filename='style.css') }}">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ url_for('index') }}">InflaBeeDee</a>
+            <a id="brand-hide" class="navbar-brand text-center center-block" href="#">MENU</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('index') }}">Home</a></li>
+            <ul id="link-left" class="nav navbar-nav">
+                <li id="first-link"><a href="{{ url_for('index') }}">Home</a></li>
                 <li><a href="{{ url_for('post_search') }}">Find Meals</a></li>
                 <li><a href="{{ url_for('rest_search') }}">Add Meals</a></li>
             </ul>
@@ -47,11 +47,9 @@ href= "{{ url_for('static',filename='style.css') }}">
   <div class="container">
     {% with messages = get_flashed_messages() %}
       {% if messages %}
-        <ul>
-          {% for message in messages %}
-            <div class="alert alert-info" role="alert">{{ message }}</div>
-          {% endfor %}
-        </ul>
+        {% for message in messages %}
+          <div class="alert alert-info" role="alert">{{ message }}</div>
+        {% endfor %}
       {% endif %}
     {% endwith %}
     {% if current_user.is_authenticated %}

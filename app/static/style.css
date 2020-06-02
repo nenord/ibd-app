@@ -2,6 +2,27 @@
 #small-hide, tr td:nth-child(2) { display:none; visibility:hidden; }
 }
 
+#home-buttons {
+  max-width: 400px !important;
+  padding-left: 20px !important;
+}
+
+.navbar-brand {
+  transform: translateX(-50%);
+  left: 50%;
+  position: absolute;
+}
+
+@media only screen and (min-width: 768px) {
+  .navbar-brand {
+    display: none;
+  }
+  #link-left, #bs-example-navbar-collapse-1, #first-link {
+    margin-left:0px;
+    padding-left:0px
+  }
+}
+
 .table-hover {
   max-width: 800px;
 }
@@ -18,4 +39,13 @@
 
 .thumbnail {
   padding: 30px;
+}
+
+.navbar {
+  border-radius: 0 !important;
+}
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited, .btn-primary:focus {
+  background-color: rgb(50,50,50) !important;
+  border-color: rgb(50,50,50) !important;
+  border-radius: 0 !important;
 }

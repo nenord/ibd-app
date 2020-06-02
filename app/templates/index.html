@@ -2,29 +2,24 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-  <div class="alert alert-danger" role="alert">App is in testing, all users/posts will be deleted before final release!</div>
-  <p><span style="font-weight:bold;">Welcome to InflaBeeDee</span> - a site that helps people with IBD (UC) recommend eating out options to each other.</p>
+  {% if current_user.is_anonymous %}
+    <h2>InflabeeDee</h2>
+  {% endif %}
+  <!--<div class="alert alert-danger" role="alert">App is in testing, all users/posts will be deleted before final release!</div>-->
+  <br>
+  <p><span style="font-weight:bold;">Welcome to InflaBeeDee!</span></p>
+  <p>Where people with Inflammatory Bowel Disease (IBD) can recommend eating out options to each other.</p>
   <p>Hopefully, it will make eating out a little less stressful.</p>
-  <div class="row">
-    <div class="col-sm-6 col-md-4">
-      <div class="thumbnail">
-        <div class="caption">
-          <h3>Find Meals</h3>
-          <p>Search for eating out options others recommendeded.</p>
-          <p><a href="{{ url_for('post_search') }}" class="btn btn-primary" role="button">Find meals</a></p>
-        </div>
-      </div>
+  <br>
+  <div id="home-buttons" class="row">
+    <div class="col-xs-5">
+      <p><a href="{{ url_for('post_search') }}" class="btn btn-primary" role="button">FIND MEALS</a></p>
     </div>
-    <div class="col-sm-6 col-md-4">
-      <div class="thumbnail">
-        <div class="caption">
-          <h3>Add Meals</h3>
-          <p>Find a restaurant to recommend a meal, using Yelp search - Login required.</p>
-          <p><a href="{{ url_for('rest_search') }}" class="btn btn-primary" role="button">Add a meal</a></p>
-        </div>
-      </div>
+    <div class="col-xs-5">
+      <p><a href="{{ url_for('rest_search') }}" class="btn btn-primary" role="button">ADD MEALS</a></p>
     </div>
   </div>
+  <br>
   <p class="grayed-out">Disclaimer: Recommendations are for reference only.
     If a meal does not hurt one person with UC, it does not mean it will be safe for others.</p>
 

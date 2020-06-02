@@ -2,6 +2,9 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
+  {% if current_user.is_anonymous %}
+    <h2>InflabeeDee</h2>
+  {% endif %}
   <br>
   <p>Search for eating out options others recommendeded.</p>
   <br>
