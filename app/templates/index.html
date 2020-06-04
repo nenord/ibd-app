@@ -2,10 +2,12 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-  {% if current_user.is_anonymous %}
+  <div class="alert alert-danger" role="alert">App is in testing, all users/posts will be deleted before final release!</div>
+  {% if current_user.is_authenticated %}
+    <h2>Hello {{ current_user.username }}</h2>
+  {% else %}
     <h2>InflabeeDee</h2>
   {% endif %}
-  <div class="alert alert-danger" role="alert">App is in testing, all users/posts will be deleted before final release!</div>
   <br>
   <p><span style="font-weight:bold;">Welcome to InflaBeeDee!</span></p>
   <p>Where people with Inflammatory Bowel Disease (IBD) can recommend eating out options to each other.</p>
