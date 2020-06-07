@@ -23,7 +23,8 @@ href= "{{ url_for('static',filename='style.css') }}">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a id="brand-hide" class="navbar-brand text-center center-block" href="#">MENU</a>
+            <a class="navbar-brand" href="{{ url_for('index') }}"><img src="{{url_for('static', filename='ibeedee_logo_web2.jpg')}}"
+                alt="app-logo" width="50"></a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul id="link-left" class="nav navbar-nav">
