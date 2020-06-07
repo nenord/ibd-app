@@ -7,22 +7,6 @@
   padding-left: 20px !important;
 }
 
-.navbar-brand {
-  transform: translateX(-50%);
-  left: 50%;
-  position: absolute;
-}
-
-@media only screen and (min-width: 768px) {
-  .navbar-brand {
-    display: none;
-  }
-  #link-left, #bs-example-navbar-collapse-1, #first-link {
-    margin-left:0px;
-    padding-left:0px
-  }
-}
-
 .table-hover {
   max-width: 800px;
 }

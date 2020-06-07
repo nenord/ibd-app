@@ -9,26 +9,26 @@ User recommendations will then be combined with restaurant information from Yelp
 ## Status
 App is in the minimum viable product stage of development, deployed on Heroku.
 Currently users can:
--	register, log in, and log out,
-- log in required only to make a recommendation,
-- all pages have a navbar with links to all sub-pages,
--	front page with cards pointing to browse posts and add a meal pages,
-- page for browsing posts based on location only (for now - as number of posts grow, add additional search term),
-- page for adding posts by finding restaurants and adding comments to restaurants,
--	pull and view restaurant information using Yelp API based on location and additional search terms,
+-	register, log in, and log out
+- log in required only to make a recommendation
+- all pages have a navbar with links to all sub-pages
+-	pull and view restaurant information using Yelp API based on location and additional search terms
+-	front page with buttons pointing to browse posts and add a meal pages
+- page for browsing posts based on location only (for now - as number of posts grow, add additional search term)
+- list posts, restaurant with latest post on top
+- page for adding posts by finding restaurants and adding comments to restaurants
 - add post by making a recommendation against the restaurant user selected (restaurant list and descriptions from Yelp)
+- internal error handling, error logging and error email alerts
 
 The list above completes first stage of the development. App is deployed as new features are added.
 
 ## Roadmap
-- Use New Relic addon to keep app from going to sleep on Heroku
-- Better error logging on Heroku
-- Additional search term for recommendations 
-- Pagination for restaurant search and recommendation search
-- register last login and logout time for user
-- Users declare what kind of IBD condition recommendation is for
-- Endorse a recommendation
-- Edit or delete own recommendations
-- Add user profile page
-- Better application structure with blueprints
-- Chat with developer or message to developer
+- Additional search term for recommendations
+- Email support for reset password
+- Pagination for post recommendation search
+- Register last logged-in user activity (login, logout, post search, rest search)
+- Users declare UC or CD
+- Vote for a post
+- User can delete own recommendations in page 'My posts'
+- Send feedback to developer - get in touch with us
+- About page
