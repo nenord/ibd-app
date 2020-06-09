@@ -17,8 +17,12 @@ def index():
 def rest_search():
     form = SearchRestForm()
     if form.validate_on_submit():
-        rest_counter = Counters.query.get(2)
-        rest_counter.count += 1
+        rest_count = Counters.query.filter_by(name='rest_count').first()
+        if (rest_count is None):
+            rest_count = Counters(name='rest_count', count=0)
+            db.session.add(rest_count)
+            db.session.commit()
+        rest_count.count += 1
         db.session.commit()
         headers = json.loads(app.config['HEADERS'])
         endpoints = app.config['ENDPOINTS']
@@ -68,8 +72,12 @@ def rest_search():
 def post_search():
     form = SearchPostsForm()
     if form.validate_on_submit():
-        post_counter = Counters.query.get(1)
-        post_counter.count += 1
+        post_count = Counters.query.filter_by(name='post_count').first()
+        if (post_count is None):
+            post_count = Counters(name='post_count', count=0)
+            db.session.add(post_count)
+            db.session.commit()
+        post_count.count += 1
         db.session.commit()
         city = form.location.data.strip().capitalize()
         rests = Rest.query.filter_by(city=city).order_by(Rest.timestamp.desc()).all()
