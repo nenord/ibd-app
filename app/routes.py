@@ -94,9 +94,9 @@ def login():
         return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
+        user = User.query.filter_by(email=form.email.data).first()
         if user is None or not user.check_password(form.password.data):
-            flash ('Invalid name or password')
+            flash ('Invalid email or password')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
@@ -137,12 +137,12 @@ def addpost():
     db.session.commit()
     return jsonify({"message": 'Your post has been added.'})
 
-@app.before_request
+'''@app.before_request
 def before_request():
     if request.url.startswith('http://'):
         url = request.url.replace('http://', 'https://', 1)
         code = 301
-        return redirect(url, code=code)
+        return redirect(url, code=code)'''
 
 @app.route('/logout')
 def logout():
