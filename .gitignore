@@ -2,4 +2,4 @@ app.db
 .env
 __pycache__/
 app/__pycache__/
-app/__pycache__/routes.cpython-38.pyc
+venv

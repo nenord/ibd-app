@@ -13,6 +13,9 @@ login = LoginManager(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 moment = Moment(app)
+if app.config['SSL_REDIRECT']:
+    from flask_sslify import SSLify
+    sslify = SSLify(app)
 
 login.login_view = 'login'
 
