@@ -15,7 +15,9 @@ migrate = Migrate(app, db)
 moment = Moment(app)
 if app.config['SSL_REDIRECT']:
     from flask_sslify import SSLify
+    from werkzeug.contrib.fixers import ProxyFix
     sslify = SSLify(app)
+    app.wsgi_app = ProxyFix(app.wsgi_app)
 
 login.login_view = 'login'
 
