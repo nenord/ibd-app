@@ -1,7 +1,7 @@
 import requests, json
 from app import app, db
 from datetime import datetime
-from flask import render_template, url_for, redirect, flash, request, jsonify
+from flask import render_template, url_for, redirect, flash, request, jsonify, session
 from app.forms import LoginForm, RegisterForm, SearchRestForm, SearchPostsForm
 from flask_login import login_required, current_user, login_user, logout_user
 from app.models import User, Post, Rest, Counters
@@ -24,14 +24,16 @@ def rest_search():
             db.session.commit()
         rest_count.count += 1
         db.session.commit()
+        session['location'] = form.location.data
+        session['term'] = form.term.data
+        return redirect(url_for('rest_search'))
+    if session.get('location') is not None:
         headers = json.loads(app.config['HEADERS'])
         endpoints = app.config['ENDPOINTS']
-        location = form.location.data
-        term = form.term.data
         query = f'''
         {{
-            search(term: "{term}",
-                    location: "{location}",
+            search(term: "{session.get('term')}",
+                    location: "{session.get('location')}",
                     limit: 10) {{
                 total
                 business {{
@@ -56,15 +58,19 @@ def rest_search():
         request = requests.post(endpoints, json={'query': query}, headers=headers)
         if request.status_code != 200:
             flash('Something went wrong with Yelp search, please try again.')
+            session.pop('location', 'term')
             return redirect(url_for('rest_search'))
         check = json.loads(request.text)
         if 'errors' in check.keys():
             flash(check['errors'][0]['message'])
+            session.pop('location', 'term')
             return redirect(url_for('rest_search'))
         result = check['data']['search']['business']
         if result == []:
             flash ('Yelp cannot find restaurants for that combination of inputs!')
+            session.pop('location', 'term')
             return redirect(url_for('rest_search'))
+        session.pop('location', 'term')
         return render_template('rest_search.html', title='Restaurant Search', form=form, result=result)
     return render_template('rest_search.html', title='Restaurant Search', form=form)
 
@@ -79,14 +85,17 @@ def post_search():
             db.session.commit()
         post_count.count += 1
         db.session.commit()
-        city = form.location.data.strip().capitalize()
-        rests = Rest.query.filter_by(city=city).order_by(Rest.timestamp.desc()).all()
+        session['city'] = form.location.data.strip().capitalize()
+        return redirect(url_for('post_search'))
+    if session.get('city') is not None:
+        rests = Rest.query.filter_by(city=session.get('city')).order_by(Rest.timestamp.desc()).all()
         if rests == []:
-            flash (f'There are no recommendations for {form.location.data} yet, maybe you can make one!')
+            flash (f'There are no recommendations for {session.get("city")} yet, maybe you can make one!')
+            session.pop('city')
             return redirect(url_for('post_search'))
+        session.pop('city')
         return render_template('post_search.html', title='Posts Search', form=form, rests=rests)
     return render_template('post_search.html', title='Posts Search', form=form)
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
