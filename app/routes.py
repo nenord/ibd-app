@@ -144,7 +144,7 @@ def addpost():
     post = Post(body=post_text, author=current_user, rest_id=this_rest.id)
     db.session.add(post)
     db.session.commit()
-    return jsonify({"message": 'Your post has been added.'})
+    return jsonify({"message": request.form.get("name")})
 
 @app.route('/logout')
 def logout():

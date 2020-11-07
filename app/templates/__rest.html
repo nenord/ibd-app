@@ -39,6 +39,22 @@
   </div><br>
 </div><br>
 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="modalLabelSmall">Post added!</h4>
+      </div>
+      <div class="modal-body" id="myModal-cont">
+        Your post has been added!
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript">
   document.querySelector('[id="{{ restaurant['alias'] }}"][class="removable"]').style.display = 'none';
   document.addEventListener('DOMContentLoaded', function () {
@@ -47,6 +63,7 @@
     }
     document.querySelector('[id="{{ restaurant['alias'] }}"][class="btn btn-primary pull-right"]').onclick = function () {
       var div_toggle = document.querySelector('[id="{{ restaurant['alias'] }}"][class="removable"]');
+      var inputs = document.querySelectorAll('.form-control');
       div_toggle.style.display = 'block';
       var buttons_toggle = document.querySelectorAll('.btn-primary');
       buttons_toggle.forEach(function(button) {
@@ -56,27 +73,32 @@
         buttons_toggle.forEach(function(button) {
           button.disabled = false;
         });
+        inputs.forEach(function(input) {
+          input.placeholder = "Input less than 100 characters";
+          input.style.borderColor = "#A9A9A9";
+        });
         div_toggle.style.display = 'none';
       }
       document.querySelector('[id="{{ restaurant['alias'] }}"][name="submit-it"]').onclick = function () {
         const post = document.querySelector('[id="{{ restaurant['alias'] }}"][type="text"]');
         if (post.value == '') {
-          alert('You cannot post empty form.');
+          post.placeholder = 'Cannot be empty';
+          post.style.borderColor = "#FF0000";
         }
         else if (post.value.length > 100) {
-           alert('Input should be less than 100 characters.');
+          post.value = '';
+          post.placeholder = 'Too many characters';
+          post.style.borderColor = "#FF0000";
         }
         else {
-          //const send_to_flask ='{{ restaurant.alias }}';
           var rest_info = {{restaurant|tojson}};
           const post_text = post.value;
-          // Now rest_info is an object, need ot change back end to accept this object
-          // Also uncomment ajax request below
           const request = new XMLHttpRequest();
           request.open('POST', '/addpost');
           request.onload = () => {
             const resp = JSON.parse(request.responseText);
-            alert(resp.message);
+            document.querySelector('#myModal-cont').innerHTML = resp.message;
+            $("#myModal").modal();
           }
           const data = new FormData();
           data.append('post_text', post_text);
@@ -96,6 +118,10 @@
           });
           div_toggle.style.display = 'none';
           post.value = "";
+          inputs.forEach(function(input) {
+            input.placeholder = "Input less than 100 characters";
+            input.style.borderColor = "#A9A9A9";
+          });
           return false;
         }
       }
