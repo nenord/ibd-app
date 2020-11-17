@@ -85,7 +85,7 @@ def post_search():
             db.session.commit()
         post_count.count += 1
         db.session.commit()
-        session['city'] = form.location.data.strip().capitalize()
+        session['city'] = form.location.data.strip().title()
         return redirect(url_for('post_search'))
     if session.get('city') is not None:
         rests = Rest.query.filter_by(city=session.get('city')).order_by(Rest.timestamp.desc()).all()
