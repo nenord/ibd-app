@@ -10,7 +10,8 @@ from werkzeug.urls import url_parse
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', title='Homepage')
+    admin_email = app.config['ADMIN_EMAIL']
+    return render_template('index.html', title='Homepage', admin_email=admin_email)
 
 @app.route('/rest_search', methods=['GET', 'POST'])
 @login_required

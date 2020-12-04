@@ -12,3 +12,4 @@ class Config(object):
     HEADERS = os.environ.get('HEADERS')
     ENDPOINTS = os.environ.get('ENDPOINTS') or 'https://api.yelp.com/v3/graphql'
     SSL_REDIRECT = True if os.environ.get('DYNO') else False
+    ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL')
