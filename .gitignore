@@ -1,0 +1,7 @@
+app.db
+.env
+__pycache__/
+app/__pycache__/
+venv/
+migrations/__pycache/
+migrations/versions/__pycache__/

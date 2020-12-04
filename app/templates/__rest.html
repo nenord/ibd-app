@@ -1,0 +1,130 @@
+
+<div>
+  <table id="table-1" class="table table-hover">
+      <tr>
+          <td id="dont-hide">
+              <a href={{ restaurant['url'] }} target="_blank">
+                {{ restaurant['name']}}
+              </a><br>
+              {% set rest_rate_num = restaurant['rating'] %}
+              {% set rest_rate_str = 'regular_%.1f.png' % rest_rate_num %}
+              <img src="{{url_for('static', filename=rest_rate_str)}}" alt="Yelp stars">
+              <p class="grayed-out">Based on {{ restaurant['review_count'] }} ratings</p>
+          </td>
+
+          <td id="small-hide">
+            <p class="grayed-out">{{ restaurant['location']['city'] }}</p>
+            {% if restaurant['location']['address1'] %}
+            <p class="grayed-out">{{ restaurant['location']['address1'] }}, {{ restaurant['location']['postal_code'] }}</p>
+            {% else %}
+            <p class="grayed-out">{{ restaurant['location']['postal_code'] }}</p>
+            {% endif %}
+          </td>
+
+          <td id="dont-hide-button"><br>
+            <button type="button" id="{{ restaurant['alias'] }}" class="btn btn-primary pull-right">Recommend</button>
+          </td>
+      </tr>
+  </table>
+</div>
+
+<div class="removable" id="{{ restaurant['alias'] }}">
+  <input type="text" id='{{ restaurant['alias'] }}' class="form-control" aria-label="Default"
+    aria-describedby="inputGroup-sizing-default" placeholder="Input less than 100 characters">
+  <div>
+    <button type="button" name='submit-it' id='{{ restaurant['alias'] }}' class="btn btn-light col-md-1"
+      style="margin: 5px">Submit</button>
+    <button type="button" name='cancel-it' id='{{ restaurant['alias'] }}' class="btn btn-light col-md-1"
+      style="margin: 5px">Cancel</button><br>
+  </div><br>
+</div><br>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="modalLabelSmall">Post added!</h4>
+      </div>
+      <div class="modal-body" id="myModal-cont">
+        Your post has been added!
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  document.querySelector('[id="{{ restaurant['alias'] }}"][class="removable"]').style.display = 'none';
+  document.addEventListener('DOMContentLoaded', function () {
+    if (document.contains(document.getElementById("table-1"))) {
+      document.getElementById("frm").scrollIntoView();
+    }
+    document.querySelector('[id="{{ restaurant['alias'] }}"][class="btn btn-primary pull-right"]').onclick = function () {
+      var div_toggle = document.querySelector('[id="{{ restaurant['alias'] }}"][class="removable"]');
+      var inputs = document.querySelectorAll('.form-control');
+      div_toggle.style.display = 'block';
+      var buttons_toggle = document.querySelectorAll('.btn-primary');
+      buttons_toggle.forEach(function(button) {
+        button.disabled = true;
+      });
+      document.querySelector('[id="{{ restaurant['alias'] }}"][name="cancel-it"]').onclick = function () {
+        buttons_toggle.forEach(function(button) {
+          button.disabled = false;
+        });
+        inputs.forEach(function(input) {
+          input.placeholder = "Input less than 100 characters";
+          input.style.borderColor = "#A9A9A9";
+        });
+        div_toggle.style.display = 'none';
+      }
+      document.querySelector('[id="{{ restaurant['alias'] }}"][name="submit-it"]').onclick = function () {
+        const post = document.querySelector('[id="{{ restaurant['alias'] }}"][type="text"]');
+        if (post.value == '') {
+          post.placeholder = 'Cannot be empty';
+          post.style.borderColor = "#FF0000";
+        }
+        else if (post.value.length > 100) {
+          post.value = '';
+          post.placeholder = 'Too many characters';
+          post.style.borderColor = "#FF0000";
+        }
+        else {
+          var rest_info = {{restaurant|tojson}};
+          const post_text = post.value;
+          const request = new XMLHttpRequest();
+          request.open('POST', '/addpost');
+          request.onload = () => {
+            const resp = JSON.parse(request.responseText);
+            document.querySelector('#myModal-cont').innerHTML = resp.message;
+            $("#myModal").modal();
+          }
+          const data = new FormData();
+          data.append('post_text', post_text);
+          data.append('name', rest_info.name);
+          data.append('alias', rest_info.alias);
+          data.append('url', rest_info.url);
+          data.append('categories', JSON.stringify(rest_info.categories));
+          data.append('city', rest_info.location.city);
+          data.append('address', rest_info.location.address1);
+          data.append('postal_code', rest_info.location.postal_code);
+          data.append('country', rest_info.location.country);
+          data.append('rating', rest_info.rating);
+          data.append('review_count', rest_info.review_count);
+          request.send(data);
+          buttons_toggle.forEach(function(button) {
+            button.disabled = false;
+          });
+          div_toggle.style.display = 'none';
+          post.value = "";
+          inputs.forEach(function(input) {
+            input.placeholder = "Input less than 100 characters";
+            input.style.borderColor = "#A9A9A9";
+          });
+          return false;
+        }
+      }
+    }
+  });
+</script>

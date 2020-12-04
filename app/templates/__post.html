@@ -1,0 +1,39 @@
+
+<table id="table-1" class="table table-hover">
+    <tr>
+      <td id="dont-hide">
+          <a href={{ rest.url }} target="_blank">
+              {{ rest.name }}
+          </a><br>
+          {% set rest_rate_num = rest.rating %}
+          {% set rest_rate_str = 'regular_%.1f.png' % rest_rate_num %}
+          <img src="{{url_for('static', filename=rest_rate_str)}}" alt="Yelp stars">
+          <p class="grayed-out">Based on {{ rest.review_count }} ratings</p>
+      </td>
+      <td id="small-hide">
+        <p class="grayed-out">{{ rest.city }}</p>
+        {% if rest.address %}
+        <p class="grayed-out">{{ rest.address }}, {{ rest.postal_code }}</p>
+        {% else %}
+        <p class="grayed-out">{{ rest.postal_code }}</p>
+        {% endif %}
+
+      </td>
+    </tr>
+    <tr>
+      <td id="posts-id" colspan="2" style="width:100%; padding-left:20px;">
+          {% for post in rest.posts|reverse %}
+            <br><p> {{ post.body }}
+              <span class="grayed-out"> | by {{ post.author.username }} | {{ moment(post.timestamp).fromNow() }}</span></p>
+          {% endfor %}
+      </td>
+    </tr>
+</table>
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function () {
+    if (document.contains(document.getElementById("table-1"))) {
+      document.getElementById("frm").scrollIntoView();
+    }
+  });
+</script>

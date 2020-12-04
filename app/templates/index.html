@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+
+  {% if current_user.is_authenticated %}
+    <h2>Hello {{ current_user.username }}</h2>
+  {% else %}
+    <h2>InflaBeeDee</h2>
+  {% endif %}
+  <br>
+  <p><span style="font-weight:bold;">Welcome to InflaBeeDee!</span></p>
+  <p>Where people with Inflammatory Bowel Disease (IBD) can recommend eating out options to each other.</p>
+  <p>Hopefully, it will make eating out a little less stressful.</p>
+  <br>
+  <div id="home-buttons" class="row">
+    <div class="col-xs-5">
+      <p><a href="{{ url_for('post_search') }}" class="btn btn-primary" role="button">FIND MEALS</a></p>
+    </div>
+    <div class="col-xs-5">
+      <p><a href="{{ url_for('rest_search') }}" class="btn btn-primary" role="button">ADD MEALS</a></p>
+    </div>
+  </div>
+  <br>
+  <p class="grayed-out">Disclaimer: Recommendations are for reference only.
+    If a meal does not hurt one person with UC, it does not mean it will be safe for others.</p>
+  <br>
+  <p>Contact app developer at: <span class="grayed-out">ned.rada@outlook.com</span></p>
+{% endblock %}
