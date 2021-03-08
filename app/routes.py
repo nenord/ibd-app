@@ -78,6 +78,8 @@ def rest_search():
 @app.route('/post_search', methods=['GET', 'POST'])
 def post_search():
     form = SearchPostsForm()
+    unique_cities = Rest.query.with_entities(Rest.city).distinct()
+    cities = [i[0] for i in unique_cities]
     if form.validate_on_submit():
         post_count = Counters.query.filter_by(name='post_count').first()
         if (post_count is None):
@@ -96,7 +98,7 @@ def post_search():
             return redirect(url_for('post_search'))
         session.pop('city')
         return render_template('post_search.html', title='Posts Search', form=form, rests=rests)
-    return render_template('post_search.html', title='Posts Search', form=form)
+    return render_template('post_search.html', title='Post Search', form=form, cities=cities)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -113,7 +115,7 @@ def login():
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('index')
         return redirect(next_page)
-    return render_template('login.html', title='Sign-in', form=form)
+    return render_template('login.html', title='Login', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

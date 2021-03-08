@@ -5,7 +5,7 @@
   {% if current_user.is_authenticated %}
     <h2>Hello {{ current_user.username }}</h2>
   {% else %}
-    <h2>InflabeeDee</h2>
+    <h2>IBeeDee</h2>
   {% endif %}
   <br>
   <p>Search for eating out options others recommendeded.</p>
@@ -23,4 +23,14 @@
       {% include '__post.html' %}
     {% endfor %}
   </div>
+  {% if cities %}
+    <div>
+      <p class="grayed-out">We have recommendations for:</p>
+      <ul>
+        {% for cty in cities %}
+          <li class="grayed-out">{{ cty }}</p>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
 {% endblock %}
