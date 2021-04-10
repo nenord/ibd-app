@@ -1,4 +1,11 @@
 # IBD app
+
+## Build
+Flask and PostgreSQL database
+
+## Deploy
+Heroku
+
 ## Background
 Inflammatory Bowel Diseases include Ulcerative Colitis (UC) and Chron's disease. IBDs impact the digestive tract. The result is that people who suffer from IBD need to severely restrict food they have. It is also very difficult to maintain social life as eating out is often a major risk and eating wrong type of food can significantly worsen the condition. This app will allow people with IBD to identify meals that they had in a restaurant that did not hurt them and share that information with others.
 ## Implementation plan
